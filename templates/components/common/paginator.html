@@ -3,10 +3,29 @@
         {{#if previous}}
             <li class="pagination-item pagination-item--previous">
                 <a class="pagination-link"
+                   href="?page={{first links}}"
+                   {{#unless reload}}data-faceted-search-facet{{/unless}}
+                   aria-label="{{lang 'common.first'}}">
+                    <i class="icon" aria-hidden="true">
+                        <svg>
+                            <use href="#icon-chevron-left"></use>
+                        </svg>
+                    </i>
+                    <i class="icon" aria-hidden="true">
+                        <svg>
+                            <use href="#icon-chevron-left"></use>
+                        </svg>
+                    </i>
+                    {{lang 'common.first'}}
+                </a>
+            </li>
+        {{/if}}
+        {{#if previous}}
+            <li class="pagination-item pagination-item--previous">
+                <a class="pagination-link"
                    href="{{previous}}"
                    {{#unless reload}}data-faceted-search-facet{{/unless}}
-                   aria-label="{{lang 'common.previous'}}"
-                >
+                   aria-label="{{lang 'common.previous'}}">
                     <i class="icon" aria-hidden="true">
                         <svg>
                             <use href="#icon-chevron-left"></use>
@@ -27,19 +46,24 @@
                    {{/if}}
                    aria-label="{{lang 'common.paginator.page_of' current=this.number total=../links.length}}"
                 >
-                    {{this.number}}
+                    {{this.number}} 
                 </a>
             </li>
         {{/each}}
 
         {{#if next}}
             <li class="pagination-item pagination-item--next">
-                <a class="pagination-link"
-                   href="{{next}}"
+                <a class="pagination-link" 
+                   href="?page={{length links}}"
                    {{#unless reload}}data-faceted-search-facet{{/unless}}
-                   aria-label="{{lang 'common.next'}}"
-                >
-                    {{lang 'common.next'}}
+                   aria-label="{{lang 'common.last'}}"
+                >{{length links}} --- {{first links}} --- 
+                    {{lang 'common.last'}}
+                    <i class="icon" aria-hidden="true">
+                        <svg>
+                            <use href="#icon-chevron-right"></use>
+                        </svg>
+                    </i>
                     <i class="icon" aria-hidden="true">
                         <svg>
                             <use href="#icon-chevron-right"></use>
@@ -47,6 +71,8 @@
                     </i>
                 </a>
             </li>
+        {{/if}}
+        {{#if next}}
             <li class="pagination-item pagination-item--next">
                 <a class="pagination-link"
                    href="{{next}}"

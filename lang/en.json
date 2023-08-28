@@ -181,7 +181,9 @@
         },
         "prices_are_in": "Prices are in {CODE}",
         "previous": "Previous",
+        "first": "First",
         "next": "Next",
+        "last": "Last",
         "sorter": {
             "relevance": "Relevance",
             "sort_by": "Sort By:",
