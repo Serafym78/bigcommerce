@@ -1,21 +1,18 @@
 <nav class="pagination" aria-label="pagination">
     <ul class="pagination-list">
         {{#if previous}}
-            <li class="pagination-item pagination-item--previous">
+            <li class="pagination-item pagination-item--first">
                 <a class="pagination-link"
                    href="?page={{first links}}"
                    {{#unless reload}}data-faceted-search-facet{{/unless}}
                    aria-label="{{lang 'common.first'}}">
+                   {{#for 1 2}}
                     <i class="icon" aria-hidden="true">
                         <svg>
                             <use href="#icon-chevron-left"></use>
                         </svg>
                     </i>
-                    <i class="icon" aria-hidden="true">
-                        <svg>
-                            <use href="#icon-chevron-left"></use>
-                        </svg>
-                    </i>
+                    {{/for}}
                     {{lang 'common.first'}}
                 </a>
             </li>
@@ -52,23 +49,20 @@
         {{/each}}
 
         {{#if next}}
-            <li class="pagination-item pagination-item--next">
+            <li class="pagination-item pagination-item--last">
                 <a class="pagination-link" 
                    href="?page={{length links}}"
                    {{#unless reload}}data-faceted-search-facet{{/unless}}
-                   aria-label="{{lang 'common.last'}}"
-                >{{length links}} --- {{first links}} --- 
-                    {{lang 'common.last'}}
+                   aria-label="{{lang 'common.last'}}"> 
+                   <!-- {{length links}} --- {{first links}} ---  -->
+                   {{lang 'common.last'}}
+                    {{#for 1 2}}
                     <i class="icon" aria-hidden="true">
                         <svg>
                             <use href="#icon-chevron-right"></use>
                         </svg>
                     </i>
-                    <i class="icon" aria-hidden="true">
-                        <svg>
-                            <use href="#icon-chevron-right"></use>
-                        </svg>
-                    </i>
+                    {{/for}}
                 </a>
             </li>
         {{/if}}
