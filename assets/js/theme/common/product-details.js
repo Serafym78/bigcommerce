@@ -272,6 +272,12 @@ export default class ProductDetails extends ProductDetailsBase {
                 const $context = $form.parents('.productView').find('.productView-info');
                 modalFactory('[data-reveal]', { $context });
             }
+
+            const pvt = $('.productView-title');
+            if (!pvt.data('product_name')) {
+                pvt.data('product_name', pvt.text());
+            }
+            pvt.text(`${pvt.data('product_name')} [${productAttributesData.sku}]`);
         });
     }
 
