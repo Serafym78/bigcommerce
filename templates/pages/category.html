@@ -3,6 +3,44 @@ category:
     shop_by_price: true
     products:
         limit: {{theme_settings.categorypage_products_per_page}}
+gql: "query productById {
+    site {
+        products (first: 50) {
+          pageInfo {
+            startCursor
+            endCursor
+          }
+          edges {
+            cursor
+            node {
+              entityId
+              name
+              sku
+              productOptions {
+                edges {
+                  node {
+                    entityId
+                    displayName
+                    ... on MultipleChoiceOption {
+                      values {
+                        edges {
+                          node {
+                            ... on SwatchOptionValue {
+                              label
+                              hexColors
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+}"
 ---
 {{inject "categoryProductsPerPage" theme_settings.categorypage_products_per_page}}
 {{#partial "head"}}
@@ -48,7 +86,7 @@ category:
     {{/if}}
 
     <div class="page-content" id="product-listing-container">
-        {{> components/category/product-listing}}
+        {{> components/category/product-listing gql=gql}}
         {{{region name="category_below_content"}}}
     </div>
 </div>

@@ -130,6 +130,14 @@
     }
 }
 
+.color-dots .dot{
+    height: 25px;
+    width: 25px;
+    background-color: var(--tooltip-color);
+    border-radius: 50%;
+    display: inline-block;
+}
+
 
 //
 // Alternate card

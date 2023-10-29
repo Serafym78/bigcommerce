@@ -132,6 +132,23 @@
                 {{> components/common/login-for-pricing}}
             {{/if}}
         </div>
+
+        <div class = "color-dots">
+            {{#each gql.data.site.products.edges}}
+                {{#if ../sku '==' node.sku}}
+                    {{#with node.productOptions}}
+                        {{#each edges}}
+                            {{#if node.displayName '==' 'Color'}}
+                                {{#with node.values}}
+                                    {{#each edges}}
+                                        <span class="dot" style = "--tooltip-color: {{node.hexColors.[0]}}"></span>
+                                    {{/each}}   
+                                {{/with}}
+                            {{/if}}
+                        {{/each}}
+                    {{/with}}
+                {{/if}}
+            {{/each}}
         {{> components/products/bulk-discount-rates}}
     </div>
 </article>
