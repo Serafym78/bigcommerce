@@ -66,7 +66,8 @@ export default class Cart extends PageManager {
         });
     }
 
-    cartUpdateQtyTextChange($target, preVal = null) {
+    cartUpdateQtyTextChange($target, preVal = null, zeroItem = false) {
+        let newQty = null;
         const itemId = $target.data('cartItemid');
         const $el = $(`#qty-${itemId}`);
         const maxQty = parseInt($el.data('quantityMax'), 10);
@@ -74,7 +75,7 @@ export default class Cart extends PageManager {
         const oldQty = preVal !== null ? preVal : minQty;
         const minError = $el.data('quantityMinError');
         const maxError = $el.data('quantityMaxError');
-        const newQty = parseInt(Number($el.val()), 10);
+        newQty = zeroItem ? 0 : parseInt(Number($el.val()), 10);
         let invalidEntry;
 
         // Does not quality for min/max quantity
@@ -246,7 +247,8 @@ export default class Cart extends PageManager {
             event.preventDefault();
 
             // update cart quantity
-            cartUpdate($target);
+            // cartUpdate($target);
+            this.updateCartEvent($target, cartUpdate);
         });
 
         // cart qty manually updates
@@ -257,7 +259,8 @@ export default class Cart extends PageManager {
             event.preventDefault();
 
             // update cart quantity
-            cartUpdateQtyTextChange($target, preVal);
+            // cartUpdateQtyTextChange($target, preVal);
+            this.updateCartEvent($target, cartUpdateQtyTextChange, preVal, event);
         });
 
         $('.cart-remove', this.$cartContent).on('click', event => {
@@ -441,4 +444,31 @@ export default class Cart extends PageManager {
         };
         this.shippingEstimator = new ShippingEstimator($('[data-shipping-estimator]'), shippingErrorMessages);
     }
+
+    updateCartEvent($target, cartUpdate, preVal, event){
+        const isDecrease = $target.data('action') === 'dec';
+        const itemId = $target.data('cartItemid');
+        const $el = $(`#qty-${itemId}`);
+        const oldQty = parseInt($el.val(), 10);
+        const manualQtyChange = $target.data('action') === 'manualQtyChange';
+        let isQuantity = true;
+        const newQty = parseInt(Number($el.val()), 10);
+        if (oldQty == 1 && isDecrease || newQty == 0 && manualQtyChange){
+            showAlertModal('Are you sure you want to delete this item?', {
+                icon: 'warning',
+                showCancelButton: true,
+                onConfirm: () => {
+                    // remove item from cart
+                    cartUpdate($target, preVal, true);
+                },               
+            });
+            isQuantity = false;
+            if(manualQtyChange && newQty == 0){
+                $el.val(preVal);
+            }
+        }
+        if(isQuantity){
+            cartUpdate($target, preVal);
+        }
+    };
 }
