@@ -1,6 +1,7 @@
 <div class="previewCartWrapper">
-  <div class="previewCart">
-    {{#if cart.items.length}}
+    <div class="previewCart" data-mini-cart>
+        <div class="loadingOverlay"></div>
+        {{#if cart.items.length}}
         <ul class="previewCartList">
             {{#each (limit cart.items 4)}}
                 <li class="previewCartItem">
@@ -42,6 +43,56 @@
                                     {{> components/common/login-for-pricing}}
                                 {{/or}}
                             </span>
+
+                            <div class="cart-item-block cart-item-info cart-item-quantity">
+
+                                <label class="form-label cart-item-label" for="qty-{{id}}">{{lang 'products.quantity'}}</label>
+                                <div class="form-increment minicart">
+                                    {{#if can_modify}}
+                                        <button class="button button--icon"
+                                                data-cart-update
+                                                data-cart-itemid="{{id}}"
+                                                data-action="dec"
+                                        >
+                                            <span class="is-srOnly">{{lang 'products.quantity_decrease' name=name}}</span>
+                                            <i class="icon" aria-hidden="true"><svg><use href="#icon-keyboard-arrow-down" /></svg></i>
+                                        </button>
+                                    {{/if}}
+                                    <input class="form-input form-input--incrementTotal cart-item-qty-input"
+                                        id="qty-{{id}}"
+                                        name="qty-{{id}}"
+                                        type="tel"
+                                        value="{{quantity}}"
+                                        data-quantity-min="{{min_purchase_quantity}}"
+                                        data-quantity-max="{{max_purchase_quantity}}"
+                                        data-quantity-min-error="{{lang 'products.quantity_min' quantity=min_purchase_quantity}}"
+                                        data-quantity-max-error="{{lang 'products.quantity_max' quantity=max_purchase_quantity}}"
+                                        min="1"
+                                        pattern="[0-9]*"
+                                        data-cart-itemid="{{id}}"
+                                        data-action="manualQtyChange"
+                                        aria-label="{{name}}"
+                                        aria-live="polite"{{#unless can_modify}} disabled{{/unless}}
+                                        readonly>
+                                    {{#if can_modify}}
+                                        <button class="button button--icon"
+                                                data-cart-update
+                                                data-cart-itemid="{{id}}"
+                                                data-action="inc"
+                                        >
+                                            <span class="is-srOnly">{{lang 'products.quantity_increase' name=name}}</span>
+                                            <i class="icon" aria-hidden="true"><svg><use href="#icon-keyboard-arrow-up" /></svg></i>
+                                        </button>
+                                        <button class="cart-remove icon"
+                                            data-cart-update
+                                            data-cart-itemid="{{id}}"
+                                            data-action = "del">
+                                            <svg><use href="#icon-close"></use></svg>
+                                        </button>
+                                    {{/if}}
+                                </div>
+            
+                            </div>
                         </div>
                     </li>
                 {{/each}}

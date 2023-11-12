@@ -1,6 +1,7 @@
 import 'foundation-sites/js/foundation/foundation';
 import 'foundation-sites/js/foundation/foundation.dropdown';
 import utils from '@bigcommerce/stencil-utils';
+import minicart from './mini-cart';
 
 export const CartPreviewEvents = {
     close: 'closed.fndtn.dropdown',
@@ -63,6 +64,7 @@ export default function (secureBaseUrl, cartId) {
                 .html(response);
             $cartLoading
                 .hide();
+            minicart();
         });
     });
 
